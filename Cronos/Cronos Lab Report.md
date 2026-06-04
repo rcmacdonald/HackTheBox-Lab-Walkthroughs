@@ -51,7 +51,7 @@ Nmap done at Thu May 28 09:31:53 2026 -- 1 IP address (1 host up) scanned in 72.
 
 The NMAP scan reveals 3 ports open and the potential services available on each port -- An SSH server on port 22, a DNS server on port 53, and a web server on port 80.  Testing the webserver first shows the Apache2 default page.  
 
-[Apache2](images/Apache2.png)
+![Apache2](images/Apache2.png)
 
 Since there is a DNS server on port 53, we can query it for the domain name of the host.
 
@@ -72,7 +72,7 @@ This reveals that the domain name is cronos.htb, so we can update /etc/hosts wit
 
 And navigate to http\://cronos.htb, where we find a relatively blank page and a few links that go to laravel.com, laracasts.com, laravel-news.com, and github.  These links are out of scope, so we don't engage with them.
 
-[CronosPage](images/CronosPage.png)
+![CronosPage](images/CronosPage.png)
 
 Running dirsearch to directory fuzz cronos.htb reveals a few seemingly interesting directories, but no further useful information is found within the files.
 
@@ -132,21 +132,21 @@ www.cronos.htb has address 10.10.10.13
 
 In doing so, we find the admin.cronos.htb subdirectory.  Navigating to the admin.cronos.htb subdirectory reveals a login page with little else.
 
-[AdminLogin](images/AdminLogin.png)
+![AdminLogin](images/AdminLogin.png)
 
 ## Initial Access
 
 Attempting a few weak usernames and passwords (admin/admin, admin/password, etc.) on the login form fails.  However, attempting a basic SQL injection for bypassing login forms in the user field (admin' #) works and grants us access to a welcome.php page with a net tool intended to perform traceroutes and pings using system tools.
 
-[NetTool](images/NetTool.png)
+![NetTool](images/NetTool.png)
 
 Testing if we can break out of the net tool's logic using a semicolon (traceroute 8.8.8.8; whoami) in order to run a second command results in successful execution of arbitrary commands.
 
-[Whoami](images/Whoami.png)
+![Whoami](images/Whoami.png)
 
 Opening the request up in BurpSuite shows the two parameters (command and host) that we are sending.  Below is an example where we are sending '8.8.8.8; cat /etc/passwd'
 
-[Request](images/Request.png)
+![Request](images/Request.png)
 
 Sending commands with certain characters results in the web server not being able to understand the command.  However, if we URL encode our commands, it will be understood by the web server.
 
@@ -164,7 +164,7 @@ listening on [any] 4444 ...
 
 Then we send the request with BurpSuite's repeater.
 
-[Repeater](images/Repeater.png)
+![Repeater](images/Repeater.png)
 
 And on our netcat listener, we obtain a reverse shell as www-data.
 
