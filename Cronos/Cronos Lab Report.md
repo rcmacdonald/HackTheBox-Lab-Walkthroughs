@@ -113,7 +113,7 @@ Starting:
 200 -  914B  - /web.config
 ```
 
-Since there is a domain server open, we can attempt an AXFR (Asynchronous Full Transfer Zone) request to replicate the zone database to see if there's any interesting subdirectories.
+Since there is a domain server open, we can attempt an AXFR (Asynchronous Full Transfer Zone) request to replicate the zone database to see if there's any interesting subdomains.
 
 > host -l cronos.htb 10.129.227.211
 
@@ -130,7 +130,7 @@ ns1.cronos.htb has address 10.10.10.13
 www.cronos.htb has address 10.10.10.13
 ```
 
-In doing so, we find the admin.cronos.htb subdirectory.  Navigating to the admin.cronos.htb subdirectory reveals a login page with little else.
+In doing so, we find the admin.cronos.htb subdomain.  Navigating to the admin.cronos.htb subdomain reveals a login page with little else.
 
 ![AdminLogin](images/AdminLogin.png)
 
